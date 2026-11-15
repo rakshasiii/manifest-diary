@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4e6e3"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<title>Manifest — дневник желаний</title>
+<style>
+:root{--bg:#fbf5f2;--paper:#fffdfa;--pink:#f1e2e1;--rose:#986d67;--ink:#79544f;--gold:#b7955b;--line:#eadbd5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{padding:24px 18px 18px;background:linear-gradient(145deg,#f5e8e5,#eee1dd);text-align:center}
+h1{font-family:Georgia,serif;font-weight:normal;font-style:italic;font-size:42px;margin:4px 0;color:#805b55}
+.sub{font-size:12px;letter-spacing:2px;color:var(--rose)}.hero{margin:15px auto 0;max-width:650px;padding:22px 14px;border:1px solid #e5d2c8;border-radius:18px;background:linear-gradient(135deg,#f8e9e6,#fffaf5);font-family:Georgia,serif;font-style:italic;font-size:18px}
+nav{position:sticky;top:0;z-index:3;background:#f6e9e6;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow:auto;padding:9px}
+nav button{white-space:nowrap;border:0;border-radius:20px;background:transparent;color:var(--rose);padding:10px 13px;font-size:13px}
+nav button.active{background:#fffdfa;box-shadow:0 1px 5px #d9c4bd}
+main{max-width:760px;margin:auto;padding:16px 14px 100px}.panel{display:none}.panel.active{display:block}
+h2{font:italic 26px Georgia,serif;margin:10px 0 6px}h3{font-size:16px;margin:12px 0 7px}
+p.help{color:#a17d75;font-size:13px;line-height:1.5}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:15px;margin:12px 0;box-shadow:0 3px 12px #9d75600b}
+label{display:block;font-size:13px;color:#98746d;margin:10px 0 5px}
+input,textarea,select{width:100%;border:1px solid #e5d4ce;border-radius:11px;padding:12px;background:#fff;color:#654943;font:inherit}
+textarea{min-height:110px;resize:vertical}
+button,.btn{border:0;border-radius:12px;padding:11px 15px;background:#9e7770;color:white;font:inherit;cursor:pointer}
+button.secondary{background:#f1e5e1;color:#805b55}button.danger{background:#f7e9e7;color:#985e58}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
+.small{font-size:12px;color:#a17d75}.muted{color:#a17d75}.item{padding:11px;border-radius:12px;background:#f8eeeb;margin:8px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.item span{overflow-wrap:anywhere}.item button{padding:7px 10px;font-size:12px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat .card{margin:0;background:#f5e9e5}
+.stat strong{display:block;font:30px Georgia,serif;color:#946c65}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.day{padding:9px 2px;text-align:center;background:#f7eeeb;border-radius:8px;font-size:12px}.day.done{background:#e7eee3;color:#587451}
+.photo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.photo{background:#f7eeeb;border-radius:13px;overflow:hidden}.photo img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.photo div{padding:8px;font-size:12px}
+footer{text-align:center;color:#b08b81;font:italic 13px Georgia,serif;padding:20px}
+.notice{padding:10px;border-radius:10px;background:#e9efe5;color:#587451;font-size:13px;margin:8px 0}
+@media(min-width:650px){main{padding-top:24px}.photo-grid{grid-template-columns:repeat(3,1fr)}}
+</style></head>
+<body>
+<header><div class="sub">✧ YOUR PERSONAL JOURNAL ✧</div><h1>Manifest</h1><div class="sub">МЕЧТАЙ · ЗАПИСЫВАЙ · СОЗДАВАЙ</div><div class="hero">☾ Маленькие шаги к большой мечте ✿</div></header>
+<nav id="nav">
+<button class="active" data-tab="home">⌂ Главная</button><button data-tab="369">☾ 369</button><button data-tab="script">✎ Скриптинг</button><button data-tab="board">🦋 Карта</button><button data-tab="thanks">♡ Благодарность</button><button data-tab="affirm">✧ Аффирмации</button><button data-tab="wishes">☆ Желания</button><button data-tab="calendar">▦ Календарь</button><button data-tab="settings">⚙ Данные</button>
+</nav>
+<main>
+<section id="home" class="panel active">
+<h2>Привет, мечтательница ♡</h2><p class="help">Твоё уютное пространство для целей, вдохновения и благодарности.</p>
+<div class="stat"><div class="card"><strong id="wishCount">0</strong><span class="small">Моих желаний</span></div><div class="card"><strong id="doneCount">0</strong><span class="small">Достигнутых целей</span></div></div>
+<div class="card"><div class="small">✧ АФФИРМАЦИЯ ДНЯ</div><h2 id="dailyAffirm">Я могу постепенно воплощать свои мечты в жизнь.</h2><button class="secondary" id="newAff">Другая аффирмация</button></div>
+<div class="card"><h3>Мой сегодняшний ритуал</h3><p class="help">Выбери раздел в меню и удели немного времени своим мыслям и целям.</p><div class="row"><button onclick="showTab('369')">Начать 369</button><button class="secondary" onclick="showTab('thanks')">Поблагодарить</button></div></div>
+</section>
+<section id="369" class="panel"><h2>Практика 369 ☾</h2><p class="help">Выбери намерение и запиши его 3 раза утром, 6 раз днём и 9 раз вечером. Это упражнение на внимание и регулярное возвращение к цели, а не гарантия результата.</p>
+<div class="card"><label>Моё намерение</label><textarea id="intent" placeholder="Я последовательно учусь и замечаю свой прогресс..."></textarea><div class="row"><button id="saveIntent">Сохранить намерение</button><button class="secondary" id="start33">Начать / отметить день</button></div><p class="small" id="cycleInfo">Цикл ещё не начат.</p></div>
+<div class="card"><h3>Сегодняшние записи</h3><div id="369areas"></div></div>
+</section>
+<section id="script" class="panel"><h2>Мой скриптинг ✎</h2><p class="help">Опиши желаемое от первого лица, в настоящем времени. Добавляй реальные шаги, которые помогут приблизиться к цели.</p><div class="card"><label>Заголовок</label><input id="scriptTitle" placeholder="Например: Мой спокойный и счастливый день"><label>Моя история</label><textarea id="scriptText" placeholder="Сегодня я чувствую... Я рада, что постепенно..."></textarea><button id="saveScript">Сохранить запись</button></div><div id="scriptList"></div></section>
+<section id="board" class="panel"><h2>Карта желаний 🦋</h2><p class="help">Добавляй фотографии и подписи к целям. Выбирай изображения, которые вдохновляют тебя на конкретные действия.</p><div class="card"><label>Фотография</label><input id="photoInput" type="file" accept="image/*"><label>Подпись</label><input id="photoCaption" placeholder="Путешествия, творчество, учёба..."><button id="addPhoto">Добавить на доску</button><p class="small">Фотографии сохраняются в хранилище браузера на этом устройстве.</p></div><div class="photo-grid" id="photoGrid"></div></section>
+<section id="thanks" class="panel"><h2>Дневник благодарности ♡</h2><p class="help">Запиши три вещи, за которые ты благодарна сегодня — даже если это что-то совсем небольшое.</p><div class="card"><label>1. Сегодня я благодарна за...</label><input class="gratitude" placeholder="Первое хорошее событие"><label>2. Мне было приятно...</label><input class="gratitude" placeholder="Второй момент"><label>3. Я ценю в себе...</label><input class="gratitude" placeholder="Третья вещь"><button id="saveThanks">Сохранить день</button></div><div id="thanksList"></div></section>
+<section id="affirm" class="panel"><h2>Мои аффирмации ✧</h2><p class="help">Выбирай фразы, которые поддерживают тебя и напоминают о твоих ценностях.</p><div class="card"><textarea id="affirmText" placeholder="Я могу учиться новому в своём темпе."></textarea><button id="addAffirm">Добавить фразу</button></div><div id="affirmList"></div></section>
+<section id="wishes" class="panel"><h2>Мои желания ☆</h2><div class="card"><label>Мечта или цель</label><input id="wishText" placeholder="Чему я хочу научиться?"><label>Маленький следующий шаг</label><input id="wishStep" placeholder="Что я могу сделать на этой неделе?"><button id="addWish">Добавить желание</button></div><div id="wishList"></div></section>
+<section id="calendar" class="panel"><h2>Мой календарь ▦</h2><p class="help">Отмечай дни, когда уделила время дневнику. Это не соревнование — пропущенный день не отменяет твой прогресс.</p><div class="card"><div class="row"><button class="secondary" id="prevMonth">←</button><strong id="monthName" style="text-align:center"></strong><button class="secondary" id="nextMonth">→</button></div><div class="grid" id="calendarGrid"></div></div></section>
+<section id="settings" class="panel"><h2>Мои данные ⚙</h2><div class="card"><h3>Напоминания</h3><p class="help">Можно включить уведомления, если браузер поддерживает их. Для уведомлений даже при закрытом сайте потребуется установленная PWA-версия и разрешение iPhone.</p><label><input type="checkbox" id="reminders" style="width:auto"> Включить напоминания на этом устройстве</label><label>Время утреннего ритуала</label><input type="time" id="morning" value="08:00"><label>Время вечернего ритуала</label><input type="time" id="evening" value="20:00"><button id="askNotify">Разрешить уведомления</button><p class="small" id="notifyStatus"></p></div><div class="card"><h3>Резервная копия</h3><p class="help">Экспортируй данные в файл, чтобы сохранить копию. Импорт заменит текущие данные.</p><div class="row"><button id="exportData">Скачать копию</button><label class="btn secondary" style="text-align:center">Импорт копии<input type="file" id="importData" accept="application/json" hidden></label></div></div><div class="card"><h3>Конфиденциальность</h3><p class="help">Данные этого прототипа хранятся локально в браузере. Очистка данных Safari или удаление сайта может удалить записи. Делай резервные копии.</p><button class="danger" id="clearData">Удалить все данные</button></div></section>
+</main><footer>✿ Manifest · твоё пространство для вдохновения ✿</footer>
+<script>
+const $=id=>document.getElementById(id), KEY='manifest-local-v1';
+let db={intent:'',scripts:[],photos:[],thanks:[],affirmations:['Я могу постепенно воплощать свои мечты в жизнь.','Я достойна уважения и доброго отношения.','Я могу делать маленькие шаги к важным целям.'],wishes:[],days:{},cycleStart:null,cycleDays:[],settings:{reminders:false,morning:'08:00',evening:'20:00'}};
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)db={...db,...x}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function showTab(t){document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===t));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));if(t==='calendar')renderCalendar();window.scrollTo(0,0)}
+$('nav').addEventListener('click',e=>{let b=e.target.closest('button[data-tab]');if(b)showTab(b.dataset.tab)});
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const today=()=>new Date().toISOString().slice(0,10);
+function render(){
+$('wishCount').textContent=db.wishes.length;$('doneCount').textContent=db.wishes.filter(w=>w.done).length;
+$('intent').value=db.intent||'';$('scriptList').innerHTML=db.scripts.map((s,i)=>`<div class="card"><div class="small">${esc(s.date)}</div><h3>${esc(s.title||'Моя запись')}</h3><p>${esc(s.text).replace(/\n/g,'<br>')}</p><button class="danger" onclick="del('scripts',${i})">Удалить</button></div>`).join('');
+$('photoGrid').innerHTML=db.photos.map((p,i)=>`<div class="photo"><img src="${p.data}" alt=""><div>${esc(p.caption)} <button class="danger" onclick="del('photos',${i})">Удалить</button></div></div>`).join('');
+$('thanksList').innerHTML=db.thanks.map((g,i)=>`<div class="card"><div class="small">${g.date}</div>${g.items.map(x=>`<p>♡ ${esc(x)}</p>`).join('')}<button class="danger" onclick="del('thanks',${i})">Удалить</button></div>`).join('');
+$('affirmList').innerHTML=db.affirmations.map((a,i)=>`<div class="item"><span>${esc(a)}</span><button class="danger" onclick="del('affirmations',${i})">×</button></div>`).join('');
+$('wishList').innerHTML=db.wishes.map((w,i)=>`<div class="card"><label><input type="checkbox" style="width:auto" ${w.done?'checked':''} onchange="toggleWish(${i},this.checked)"> ${esc(w.name)}</label><p class="help">Следующий шаг: ${esc(w.step||'Пока не указан')}</p><button class="danger" onclick="del('wishes',${i})">Удалить</button></div>`).join('');
+$('cycleInfo').textContent=db.cycleStart?`День ${Math.min(33,Math.floor((new Date(today())-new Date(db.cycleStart))/86400000)+1)} из 33 · Начало: ${db.cycleStart}`:'Цикл ещё не начат.';
+$('affirmText').value='';$('morning').value=db.settings.morning;$('evening').value=db.settings.evening;$('reminders').checked=db.settings.reminders;
+render369();
+}
+window.del=(k,i)=>{db[k].splice(i,1);save()};window.toggleWish=(i,v)=>{db.wishes[i].done=v;save()};
+$('saveIntent').onclick=()=>{db.intent=$('intent').value;save();alert('Намерение сохранено')};
+$('start33').onclick=()=>{if(!db.intent.trim())return alert('Сначала напиши намерение.');if(!db.cycleStart||confirm('Начать новый 33-дневный цикл?')){db.cycleStart=today();db.cycleDays=[];save()}};
+function render369(){let d=db.cycleStart?Math.min(33,Math.floor((new Date(today())-new Date(db.cycleStart))/86400000)+1):0;let done=db.cycleDays.includes(today());$('369areas').innerHTML=`<p class="help">Сегодня: ${d?`день ${d} из 33`:'цикл не начат'}</p>${['Утро · 3 раза','День · 6 раз','Вечер · 9 раз'].map((n,i)=>`<div class="item"><span>${n}</span><span>${i===0?'3':i===1?'6':'9'} повторений</span></div>`).join('')}<button ${!db.cycleStart?'disabled':''} id="mark369">${done?'Сегодня отмечено ✓':'Отметить практику за сегодня'}</button>`;let b=$('mark369');if(b)b.onclick=()=>{if(!db.cycleDays.includes(today()))db.cycleDays.push(today());db.days[today()]=true;save()}}
+$('saveScript').onclick=()=>{let text=$('scriptText').value.trim();if(!text)return alert('Добавь текст записи.');db.scripts.unshift({title:$('scriptTitle').value,text,date:today()});$('scriptText').value='';$('scriptTitle').value='';save()};
+$('addPhoto').onclick=()=>{let f=$('photoInput').files[0];if(!f)return alert('Выбери фотографию.');if(f.size>2*1024*1024)return alert('Выбери фото до 2 МБ для этого прототипа.');let r=new FileReader();r.onload=()=>{db.photos.push({data:r.result,caption:$('photoCaption').value});$('photoInput').value='';$('photoCaption').value='';save()};r.readAsDataURL(f)};
+$('saveThanks').onclick=()=>{let items=[...document.querySelectorAll('.gratitude')].map(x=>x.value.trim()).filter(Boolean);if(!items.length)return alert('Запиши хотя бы одну вещь.');db.thanks.unshift({date:today(),items});document.querySelectorAll('.gratitude').forEach(x=>x.value='');save()};
+$('addAffirm').onclick=()=>{let a=$('affirmText').value.trim();if(a){db.affirmations.unshift(a);save()}};
+$('addWish').onclick=()=>{let name=$('wishText').value.trim();if(!name)return alert('Напиши желание или цель.');db.wishes.unshift({name,step:$('wishStep').value.trim(),done:false});$('wishText').value='';$('wishStep').value='';save()};
+$('newAff').onclick=()=>{if(db.affirmations.length){let a=db.affirmations[Math.floor(Math.random()*db.affirmations.length)];$('dailyAffirm').textContent=a}};
+let month=new Date();function renderCalendar(){let y=month.getFullYear(),m=month.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0);$('monthName').textContent=first.toLocaleDateString('ru-RU',{month:'long',year:'numeric'});let html=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(x=>`<div class="day">${x}</div>`).join('');let offset=(first.getDay()+6)%7;for(let i=0;i<offset;i++)html+='<div></div>';for(let d=1;d<=last.getDate();d++){let k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;html+=`<div class="day ${db.days[k]?'done':''}">${d}</div>`}$('calendarGrid').innerHTML=html}
+$('prevMonth').onclick=()=>{month.setMonth(month.getMonth()-1);renderCalendar()};$('nextMonth').onclick=()=>{month.setMonth(month.getMonth()+1);renderCalendar()};
+$('reminders').onchange=e=>{db.settings.reminders=e.target.checked;save()};$('morning').onchange=e=>{db.settings.morning=e.target.value;save()};$('evening').onchange=e=>{db.settings.evening=e.target.value;save()};
+$('askNotify').onclick=async()=>{if(!('Notification'in window))return $('notifyStatus').textContent='Этот браузер не поддерживает уведомления.';let p=await Notification.requestPermission();$('notifyStatus').textContent=p==='granted'?'Разрешение получено. Для надёжных уведомлений при закрытом приложении нужна установленная PWA с push-сервисом.':'Разрешение не предоставлено.'};
+$('exportData').onclick=()=>{let a=document.createElement('a'),blob=new Blob([JSON.stringify(db)],{type:'application/json'});a.href=URL.createObjectURL(blob);a.download='manifest-backup.json';a.click();URL.revokeObjectURL(a.href)};
+$('importData').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x||!Array.isArray(x.wishes)||!Array.isArray(x.scripts))throw 0;db={...db,...x};save();alert('Копия восстановлена.')}catch(_){alert('Не удалось прочитать резервную копию.')}};r.readAsText(f)};
+$('clearData').onclick=()=>{if(confirm('Точно удалить все записи? Сначала скачай резервную копию, если она нужна.')){localStorage.removeItem(KEY);location.reload()}};
+load();render();
+
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+</script>
+</body></html>

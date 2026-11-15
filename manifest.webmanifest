@@ -1,0 +1,9 @@
+{
+  "name": "Manifest — дневник желаний",
+  "short_name": "Manifest",
+  "lang": "ru",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fbf5f2",
+  "theme_color": "#f1e2e1"
+}
